@@ -23,6 +23,7 @@ const DrawPipeline = () => {
 
     const [elements, setElements] = useState(initialElements)
     const [name, setName] = useState("")
+    const [click, setClick] = useState(false)
 
 
     const addNode = () => {
@@ -33,14 +34,16 @@ const DrawPipeline = () => {
         }))
     }
 
-    const onConnect = (params) => setElements(e => addEdge(params,e));
+    // const onConnect = (params) => setElements(e => addEdge(params,e));
+
+    //ADD CONDITION TO SHOW THIS PAGE OR Config.js component
 
     return(
         <Fragment>
                 <ReactFlow
                     elements={elements}
                     onLoad={onLoad}
-                    onConnect={onConnect}
+                    onConnect={(params) => setElements(e => addEdge(params,e))}
                     connectionLineType= "bezier"
                     // snapToGrid= {true}
                     // snapGrid={[16,16]}
@@ -60,6 +63,13 @@ const DrawPipeline = () => {
                 onClick={addNode}
                 >
                 Add Stage
+                </button>
+                <button type="button"
+                onClick={() => {
+                    setClick(true)
+                }}
+                >
+                Generate Config
                 </button>
             </div>
             </Fragment>
