@@ -71,7 +71,7 @@ const DrawPipeline = () => {
     //     }))
     // }
 
-    // const onConnect = (params) => setElements(e => addEdge(params,e));
+    const onConnect = (params) => setElements(e => addEdge(params,e));
 
     //ADD CONDITION TO SHOW THIS PAGE OR Config.js component
 
