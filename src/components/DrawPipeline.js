@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import ReactFlow, {addEdge, ReactFlowProvider, removeElements, Background, Controls} from 'react-flow-renderer';
 import Sidebar from './Sidebar';
 import './css/dnd.css';
@@ -27,6 +27,9 @@ const DrawPipeline = () => {
 
     const reactFlowWrapper = useRef(null);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
+    const [elements, setElements] = useState(initialElements)
+    const [nodeId, setNodeId] = useState("")
+    const [nodeName, setNodeName] = useState("");
 
     const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
@@ -34,55 +37,60 @@ const DrawPipeline = () => {
     const onLoad = (_reactFlowInstance) =>
     setReactFlowInstance(_reactFlowInstance);
 
-  const onDragOver = (event) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
-  };
-
-  const onDrop = (event) => {
-    event.preventDefault();
-
-    const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-    const type = event.dataTransfer.getData('application/reactflow');
-    const position = reactFlowInstance.project({
-      x: event.clientX - reactFlowBounds.left,
-      y: event.clientY - reactFlowBounds.top,
-    });
-    const newNode = {
-      id: getId(),
-      type,
-      position,
-      data: { label: `${type} node` },
+    const onDragOver = (event) => {
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'move';
     };
 
-    setElements((es) => es.concat(newNode));
-    console.log(elements)
-  };
+    const onDrop = (event) => {
+        event.preventDefault();
 
-    const [elements, setElements] = useState(initialElements)
+        const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+        const type = event.dataTransfer.getData('application/reactflow');
+        const position = reactFlowInstance.project({
+        x: event.clientX - reactFlowBounds.left,
+        y: event.clientY - reactFlowBounds.top,
+        });
+        const newNode = {
+        id: getId(),
+        type,
+        position,
+        data: { label: `${type} node` },
+        };
 
-    // const [name, setName] = useState("")
-
-
-    // const addNode = () => {
-    //     setElements(e => e.concat({
-    //         id: (e.length+1).toString(),
-    //         data: {label: `${name}`},
-    //         position: {x: 100, y: 45} 
-    //     }))
-    // }
+        setElements((es) => es.concat(newNode));
+        console.log(elements)
+    };
 
     const onConnect = (params) => setElements(e => addEdge(params,e));
 
     const updateNode = (e) => {
         e.preventDefault()
-        console.log(e.target[0].value)
+        setNodeName(e.target[0].value)
     }
 
-    //ADD CONDITION TO SHOW THIS PAGE OR Config.js component
+    useEffect(() => {
+        setElements((els) =>
+          els.map((el) => {
+            if (el.id === nodeId) {
+              el.data = {
+                ...el.data,
+                label: nodeName,
+              };
+            }
+    
+            return el;
+          })
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [nodeName]);
+
+    useEffect(() => {
+        // console.log(nodeId)
+      },
+      [nodeId])
 
     return(
-        // <Fragment>
         <div className="dndflow">
             <ReactFlowProvider>
                 <div className="reactflow-wrapper" ref={reactFlowWrapper}>
@@ -90,14 +98,12 @@ const DrawPipeline = () => {
                         elements={elements}
                         onLoad={onLoad}
                         onConnect={onConnect}
+                        onElementClick={(event, element) => setNodeId(element.id)}
                         connectionLineType= "bezier"
-                        // snapToGrid= {true}
-                        // snapGrid={[16,16]}
-                        style={{width: '100%', height: '90vh'}}
-
                         onElementsRemove={onElementsRemove}
                         onDrop={onDrop}
                         onDragOver={onDragOver}
+                        style={{width: '100%', height: '90vh'}}
                     >
                         <Controls />
                         <Background 
@@ -108,7 +114,6 @@ const DrawPipeline = () => {
                 <Sidebar updateNode={updateNode}/>
                 </ReactFlowProvider>
         </div>
-            // </Fragment>
     )
 }
 
