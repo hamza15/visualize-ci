@@ -19,8 +19,8 @@ const initialElements = [
 ]
 
 
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+let id = 2;
+const getId = () => `${id++}`;
 
 
 const DrawPipeline = () => {
@@ -56,6 +56,7 @@ const DrawPipeline = () => {
     };
 
     setElements((es) => es.concat(newNode));
+    console.log(elements)
   };
 
     const [elements, setElements] = useState(initialElements)
@@ -72,6 +73,11 @@ const DrawPipeline = () => {
     // }
 
     const onConnect = (params) => setElements(e => addEdge(params,e));
+
+    const updateNode = (e) => {
+        e.preventDefault()
+        console.log(e.target[0].value)
+    }
 
     //ADD CONDITION TO SHOW THIS PAGE OR Config.js component
 
@@ -99,7 +105,7 @@ const DrawPipeline = () => {
                         />
                     </ReactFlow>
                     </div>
-                <Sidebar />
+                <Sidebar updateNode={updateNode}/>
                 </ReactFlowProvider>
         </div>
             // </Fragment>
