@@ -9,6 +9,7 @@ const Sidebar = (props) => {
     const onSubmit = (e) => {
       e.preventDefault();
       props.updateNode(e)
+      e.target.reset();
     }
 
     return (
@@ -25,7 +26,7 @@ const Sidebar = (props) => {
         </div>
 
         <div>
-        <div className="mt-8 description">Select the node you would like to update.</div>
+        <div className="mt-52 description">Select the node you would like to update.</div>
           <form onSubmit={onSubmit}>
             <label>
               Update Node Label:
@@ -33,7 +34,11 @@ const Sidebar = (props) => {
             </label>
             <input type="submit" value="Submit" className="mt-4 shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"/>
           </form>
-          </div>
+        </div>
+
+        <div className="static">
+        <button className="mt-80 shadow bg-red-500 hover:bg-black w-full focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Generate Config</button>
+        </div>
       </aside>
     );
 };

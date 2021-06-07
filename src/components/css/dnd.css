@@ -34,6 +34,7 @@
   .dndflow .dndnode.output {
     border-color: #ff0072;
   }
+
   
   .dndflow .reactflow-wrapper {
     flex-grow: 1;
