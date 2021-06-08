@@ -1,17 +1,11 @@
 import { React } from 'react'
 
-const Config = (
-    {
-        elements
-    }) => {
-
-        return (
-            <div>
-                <h1>Hi</h1>
-            </div>
-        )
-            
-
-} 
+const Config = () => {
+    return (
+        <div>
+            <h1>Generated Config</h1>
+        </div>
+    )
+}
 
 export default Config;

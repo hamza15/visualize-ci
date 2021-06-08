@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ReactFlow, {addEdge, ReactFlowProvider, removeElements, Background, Controls} from 'react-flow-renderer';
 import Sidebar from './Sidebar';
+import Config from './Config'
 import './css/dnd.css';
 
 
@@ -30,6 +31,7 @@ const DrawPipeline = () => {
     const [elements, setElements] = useState(initialElements)
     const [nodeId, setNodeId] = useState("")
     const [nodeName, setNodeName] = useState("");
+    const [config, setConfig] = useState(false)
 
     const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
@@ -69,6 +71,10 @@ const DrawPipeline = () => {
         setNodeName(e.target[0].value)
     }
 
+    const generateConfig = () => {
+        setConfig(!config)
+    }
+
     useEffect(() => {
         setElements((els) =>
           els.map((el) => {
@@ -86,34 +92,39 @@ const DrawPipeline = () => {
       }, [nodeName]);
 
     useEffect(() => {
-        // console.log(nodeId)
+        console.log(config)
       },
-      [nodeId])
+      [nodeId, config])
 
-    return(
-        <div className="dndflow">
-            <ReactFlowProvider>
-                <div className="reactflow-wrapper" ref={reactFlowWrapper}>
-                    <ReactFlow
-                        elements={elements}
-                        onLoad={onLoad}
-                        onConnect={onConnect}
-                        onElementClick={(event, element) => setNodeId(element.id)}
-                        connectionLineType= "bezier"
-                        onElementsRemove={onElementsRemove}
-                        onDrop={onDrop}
-                        onDragOver={onDragOver}
-                        style={{width: '100%', height: '90vh'}}
-                    >
-                        <Controls />
-                        <Background 
-                            color='#888'
-                        />
-                    </ReactFlow>
-                    </div>
-                <Sidebar updateNode={updateNode}/>
+
+    return config === false ? (
+        <div>
+            <div className="dndflow">
+                <ReactFlowProvider>
+                    <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+                        <ReactFlow
+                            elements={elements}
+                            onLoad={onLoad}
+                            onConnect={onConnect}
+                            onElementClick={(event, element) => setNodeId(element.id)}
+                            connectionLineType= "bezier"
+                            onElementsRemove={onElementsRemove}
+                            onDrop={onDrop}
+                            onDragOver={onDragOver}
+                            style={{width: '100%', height: '90vh'}}
+                        >
+                            <Controls />
+                            <Background 
+                                color='#888'
+                            />
+                        </ReactFlow>
+                        </div>
+                    <Sidebar updateNode={updateNode} generateConfig={generateConfig}/>
                 </ReactFlowProvider>
         </div>
+        </div> 
+    ) : (
+        <Config />
     )
 }
 

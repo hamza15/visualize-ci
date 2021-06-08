@@ -12,6 +12,10 @@ const Sidebar = (props) => {
       e.target.reset();
     }
 
+    const onClick = () => {
+      props.generateConfig()
+    }
+
     return (
       <aside>
         <div className="description">You can drag these nodes to the pane on the right.</div>
@@ -37,7 +41,7 @@ const Sidebar = (props) => {
         </div>
 
         <div className="static">
-        <button className="mt-80 shadow bg-red-500 hover:bg-black w-full focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Generate Config</button>
+        <button onClick={onClick} className="mt-80 shadow bg-red-500 hover:bg-black w-full focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Generate Config</button>
         </div>
       </aside>
     );
