@@ -31,6 +31,7 @@ const DrawPipeline = () => {
     const [elements, setElements] = useState(initialElements)
     const [nodeId, setNodeId] = useState("")
     const [nodeName, setNodeName] = useState("");
+    const [workflowName, setWorkflowName] = useState("")
     const [config, setConfig] = useState(false)
 
     const onElementsRemove = (elementsToRemove) =>
@@ -43,10 +44,10 @@ const DrawPipeline = () => {
         event.preventDefault();
         event.dataTransfer.dropEffect = 'move';
     };
-
+    
     const onDrop = (event) => {
         event.preventDefault();
-
+        
         const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
         const type = event.dataTransfer.getData('application/reactflow');
         const position = reactFlowInstance.project({
@@ -71,6 +72,11 @@ const DrawPipeline = () => {
         setNodeName(e.target[0].value)
     }
 
+    const setWorkflow = (e) => {
+        e.preventDefault()
+        setWorkflowName(e.target[0].value)
+    }
+
     const generateConfig = () => {
         setConfig(!config)
     }
@@ -84,7 +90,7 @@ const DrawPipeline = () => {
                 label: nodeName,
               };
             }
-    
+            
             return el;
           })
         );
@@ -92,9 +98,9 @@ const DrawPipeline = () => {
       }, [nodeName]);
 
     useEffect(() => {
-        console.log(config)
+        // console.log(config)
       },
-      [nodeId, config])
+      [nodeId, config, workflowName])
 
 
     return config === false ? (
@@ -119,12 +125,12 @@ const DrawPipeline = () => {
                             />
                         </ReactFlow>
                         </div>
-                    <Sidebar updateNode={updateNode} generateConfig={generateConfig}/>
+                    <Sidebar updateNode={updateNode} generateConfig={generateConfig} setWorkflow={setWorkflow} workflowName={workflowName}/>
                 </ReactFlowProvider>
         </div>
         </div> 
     ) : (
-        <Config />
+        <Config elements={elements} workflowName={workflowName}/>
     )
 }
 
