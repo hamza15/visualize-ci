@@ -13,8 +13,8 @@ const initialElements = [
             label: 'Build'
         },
         position: {
-            x:0,
-            y:0
+            x:750,
+            y:300
         }
     }
 ]
@@ -33,6 +33,8 @@ const DrawPipeline = () => {
     const [nodeName, setNodeName] = useState("");
     const [workflowName, setWorkflowName] = useState("")
     const [config, setConfig] = useState(false)
+    const [orb, setOrbName] = useState('');
+    const [workflowSubmission, setWorkflowSubmission] = useState(false)
 
     const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
@@ -58,7 +60,7 @@ const DrawPipeline = () => {
         id: getId(),
         type,
         position,
-        data: { label: `${type} node` },
+        data: { label: `${type}Node` },
         };
 
         setElements((es) => es.concat(newNode));
@@ -72,9 +74,14 @@ const DrawPipeline = () => {
         setNodeName(e.target[0].value)
     }
 
+    const updateOrb = (e) => {
+        setOrbName(e)
+    }
+
     const setWorkflow = (e) => {
         e.preventDefault()
         setWorkflowName(e.target[0].value)
+        setWorkflowSubmission(true)
     }
 
     const generateConfig = () => {
@@ -100,7 +107,7 @@ const DrawPipeline = () => {
     useEffect(() => {
         // console.log(config)
       },
-      [nodeId, config, workflowName])
+      [nodeId, config, workflowName, orb, workflowSubmission])
 
 
     return config === false ? (
@@ -125,12 +132,14 @@ const DrawPipeline = () => {
                             />
                         </ReactFlow>
                         </div>
-                    <Sidebar updateNode={updateNode} generateConfig={generateConfig} setWorkflow={setWorkflow} workflowName={workflowName}/>
+                    <Sidebar updateNode={updateNode} updateOrb={updateOrb} 
+                    generateConfig={generateConfig} setWorkflow={setWorkflow} 
+                    workflowName={workflowName} workflowSubmission={workflowSubmission}/>
                 </ReactFlowProvider>
         </div>
         </div> 
     ) : (
-        <Config elements={elements} workflowName={workflowName}/>
+        <Config elements={elements} workflowName={workflowName} orb={orb}/>
     )
 }
 
