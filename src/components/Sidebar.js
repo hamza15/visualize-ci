@@ -86,7 +86,7 @@ const Sidebar = (props) => {
           </div>
 
         <div className="static">
-          <button onClick={onClick} className="mt-40 shadow bg-red-500 hover:bg-black w-full focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Generate Config</button>
+          <button onClick={onClick} className="mt-80 shadow bg-red-500 hover:bg-black w-full focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Generate Config</button>
         </div>
 
         

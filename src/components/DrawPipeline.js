@@ -64,7 +64,6 @@ const DrawPipeline = () => {
         };
 
         setElements((es) => es.concat(newNode));
-        console.log(elements)
     };
 
     const onConnect = (params) => setElements(e => addEdge(params,e));

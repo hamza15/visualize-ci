@@ -29,23 +29,25 @@ const Config = (props) => {
         return connector
     }
 
-    // function isConnector(connector) {
-    //     if ('data' in connector) {
-    //         return false
-    //     }
-    //     return connector
-    // }
-
     const elements = props.elements
-    console.log(props.elements)
-    /////test connectors
+    console.log(elements)
+
+    let jobNames = elements.filter(isNode)
+    console.log(jobNames)
+
     let dependencyObj = {}
     elements.forEach((x, i) => {
         elements.forEach((y, j) => {
             if (x.id === y.target) {
-                console.log(`${x.data.label} requires ${y.source}`)
+                let jobLabel
+                jobNames.forEach((job, i) => {
+                    if (job.id === y.source) {
+                        jobLabel = `${job.data.label}`
+                    }
+                })
+                console.log(`${x.data.label} requires ${jobLabel}`)
                 let targetName = `${x.data.label}`
-                dependencyObj[targetName] = [...dependencyObj[targetName], `${y.source}`]
+                dependencyObj[targetName] = [...dependencyObj[targetName], `${jobLabel}`]
             }
             else {
                 if ('data' in x && !dependencyObj[`${x.data.label}`])  {
@@ -55,14 +57,12 @@ const Config = (props) => {
         })
     })
 
-    console.log(dependencyObj)
 
-    let jobNames = elements.filter(isNode)
+    console.log(dependencyObj)
 
     let dependencyTree = {}
     let idsToJobs = (dependencyObj) => {
         for (var key in dependencyObj){
-            ///ADD IF STATEMENT HERE
             if (dependencyObj[key].length === 0) {
                 dependencyTree[key] = "none"
             }
@@ -74,28 +74,30 @@ const Config = (props) => {
     idsToJobs(dependencyObj)
     console.log(dependencyTree)
 
-    // let workflowNames = Object.keys(dependencyTree)
-    // console.log(workflowNames)
-    // Object.keys(dependencyTree).map(function(key, index) {
-    //     // if (dependencyTree[key] === "none") {
-    //         // workflowNames.push(key)
-    //         jsonObject.workflows[props.workflowName] = {
-    //             "jobs" : workflowNames
-    //         // }
-    //     }
-    // })
+    let arr = []
+    for (const [key, value] of Object.entries(dependencyTree)) {
+        if (value === 'none') {
+          arr.push(key)
+        }
+        else {
+          let arr2 = []
+          value.forEach((x, i) => {
+            arr2.push(x)
+          })
+      
+          let newObj = {}
+          newObj[`${key}`] = {
+            "requires": arr2
+          }
+          arr.push(newObj)
+        }
+      }
 
-    
+    console.log(arr)
 
-
-
-    // let connectorNames = elements.filter(isConnector)
-    // console.log(connectorNames)
-    // let jobNames = elements.filter(isNode)
     console.log(jobNames)
     let jobs = []
     let jobIds = []
-    // const jobNames = props.elements
     let count = 0
     jobNames.forEach((x, i) => {
             let jobName = `${x.data.label}`
@@ -127,43 +129,9 @@ const Config = (props) => {
                 }})
             }
 
-            // let arr = []
-            // for (var key in dependencyTree) {
-            //     // debugger
-                
-            //     if (dependencyTree[`${key}`] === "none") {
-            //         arr.push(key)
-            //         jsonObject.workflows[props.workflowName] = {
-            //             "jobs" : arr
-            //         }
-            //     }
-            //     else {
-            //         debugger
-            //     }
-
-                /////////////////////////////////////
-                // arr.push(key)
-                // // jsonObject.workflows[props.workflowName] = {
-                // //     "jobs" : arr
-                // // }
-                // jsonObject.workflows[props.workflowName].jobs[`${key}`] = {
-                //     "requires": [
-
-                //     ]
-                // }
-                
-                // if (jsonObject.workflows[props.workflowName].jobs[i] === dependencyTree[key] && dependencyTree[key].length !== 0) {
-                //     jsonObject.workflows[props.workflowName].jobs[i]= {
-                //         "requires" : [
-                //             `${jsonObject.workflows[props.workflowName].jobs[i]}`
-                //         ]
-                //     } 
-                // }
-            // }
-
             // workflow addition
             jsonObject.workflows[props.workflowName] = {
-                "jobs" : jobs
+                "jobs" : arr
             }
         }
     )
