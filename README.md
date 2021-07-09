@@ -1,7 +1,9 @@
 # Visualization CI
 
 ## Install
-`yarn install`
+```
+yarn install
+```
 
 ## Run
 
