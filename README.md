@@ -7,4 +7,6 @@ yarn install
 
 ## Run
 
-`yarn start`
+```
+yarn start
+```
