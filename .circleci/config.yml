@@ -2,10 +2,10 @@ version: "2.1"
 jobs:
   Build:
     docker:
-      - image: circleci/ruby:2.4-node
+      - image: cimg/node:17.0.1
     steps:
       - checkout
-      - run: echo "Hello World"
+      - run: yarn install
   Test:
     docker:
       - image: circleci/ruby:2.4-node
