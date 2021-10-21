@@ -29,6 +29,7 @@ const Sidebar = (props) => {
   }
 
     return (
+// Node Types
       <aside>
         <div className="description">You can drag these nodes to the pane on the right.</div>
         <div className="dndnode input" onDragStart={(event) => onDragStart(event, 'input')} draggable>
@@ -41,25 +42,46 @@ const Sidebar = (props) => {
           Output Node
         </div>
 
-        <div>
+{/*Node Label*/}
+        {props.jobInfo && (<div className="mt-12 description">
         <div className="mt-12 description"></div>
           <form onSubmit={onSubmit}>
             <label className="font-bold">
               Update Node Label:
               <input pattern="^\S+$" className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="name" />
             </label>
-            <input type="submit" value="Submit" className="mt-4 shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"/>
+            <div className="mt-4">
+            <label className="font-bold">Executor: </label>
+            <select name="Executor" className="bg-black shadow text-white ml-4 font-bold py-1 px-1 rounded" onChange={event => handleOrbs(event.target.value)}>
+              <option value="" className="">- select</option>
+              <option value="docker" className="">docker</option>
+              <option value="machine" className="">machine</option>
+              <option value="macos" className="">macos</option>
+              <option value="windows" className="">windows</option>
+            </select>
+            </div>
+            <div className="mt-4">
+            <label className="font-bold">Resource Class: </label>
+            <select name="resource_class" className="bg-black shadow text-white ml-4 font-bold py-1 px-1 rounded" onChange={event => handleOrbs(event.target.value)}>
+              <option value="" className="">- select</option>
+              <option value="default" className="">default</option>
+              <option value="large" className="">large</option>
+              <option value="xlarge" className="">xlarge</option>
+            </select>
+            </div>
+            <input type="submit" value="Submit" className="mt-8 shadow bg-black hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"/>
           </form>
         </div>
+        )}
 
-
-      {!props.workflowSubmission && (<div className="mt-12 description">
+{/* Workflow Label */}
+      {/* {!props.workflowSubmission && (<div className="mt-12 description">
           <form onSubmit={setWorkflowName}>
             <label className="font-bold">
               Workflow Label:
               <input pattern="^\S+$" required className="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="name" />
             </label>
-            <input type="submit" value="Submit" className="mt-4 shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"/>
+            <input type="submit" value="Submit" className="mt-4 shadow bg-black hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"/>
           </form>
         </div>)}
 
@@ -74,19 +96,20 @@ const Sidebar = (props) => {
                 <td>{props.workflowName}</td>
               </tr>
             </tbody>
-          </table>)}
+          </table>)} */}
           
-
-          <div className="mt-16 description">
+{/*Orbs*/}
+          {/* <div className="mt-16 description">
             <label className="font-bold ">Orbs</label>
-            <select name="Orbs" className="bg-purple-500 shadow text-white ml-4 font-bold py-1 px-1 rounded" onChange={event => handleOrbs(event.target.value)}>
+            <select name="Orbs" className="bg-black shadow text-white ml-4 font-bold py-1 px-1 rounded" onChange={event => handleOrbs(event.target.value)}>
               <option value="" className="">- select</option>
               <option value="Slack" className="">Slack</option>
             </select>
-          </div>
+          </div> */}
 
-        <div className="static">
-          <button onClick={onClick} className="mt-80 shadow bg-red-500 hover:bg-black w-full focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Generate Config</button>
+{/*Generate Config */}
+        <div className="fixed bottom-2 ">
+          <button onClick={onClick} className="shadow bg-red-500 hover:bg-black w-full focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Generate Config</button>
         </div>
 
         

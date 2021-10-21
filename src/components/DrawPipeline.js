@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ReactFlow, {addEdge, ReactFlowProvider, removeElements, Background, Controls} from 'react-flow-renderer';
 import Sidebar from './Sidebar';
-import Config from './Config'
+import Config from './Config';
 import './css/dnd.css';
 
 
@@ -29,12 +29,14 @@ const DrawPipeline = () => {
     const reactFlowWrapper = useRef(null);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const [elements, setElements] = useState(initialElements)
-    const [nodeId, setNodeId] = useState("")
+    const [nodeId, setNodeId] = useState("");
     const [nodeName, setNodeName] = useState("");
-    const [workflowName, setWorkflowName] = useState("")
+    const [workflowName, setWorkflowName] = useState("");
     const [config, setConfig] = useState(false)
     const [orb, setOrbName] = useState('');
-    const [workflowSubmission, setWorkflowSubmission] = useState(false)
+    const [workflowSubmission, setWorkflowSubmission] = useState(false);
+    const [jobInfo, setJobInfo] = useState(false);
+
 
     const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
@@ -65,6 +67,12 @@ const DrawPipeline = () => {
 
         setElements((es) => es.concat(newNode));
     };
+
+    const onElementClick = (event, element)  => {
+        setNodeId(element.id)
+        setJobInfo(true)
+        console.log(element.id)
+    }
 
     const onConnect = (params) => setElements(e => addEdge(params,e));
 
@@ -110,7 +118,7 @@ const DrawPipeline = () => {
 
 
     return config === false ? (
-        <div>
+        <>
             <div className="dndflow">
                 <ReactFlowProvider>
                     <div className="reactflow-wrapper" ref={reactFlowWrapper}>
@@ -118,7 +126,7 @@ const DrawPipeline = () => {
                             elements={elements}
                             onLoad={onLoad}
                             onConnect={onConnect}
-                            onElementClick={(event, element) => setNodeId(element.id)}
+                            onElementClick={onElementClick}
                             connectionLineType= "bezier"
                             onElementsRemove={onElementsRemove}
                             onDrop={onDrop}
@@ -130,13 +138,15 @@ const DrawPipeline = () => {
                                 color='#888'
                             />
                         </ReactFlow>
-                        </div>
-                    <Sidebar updateNode={updateNode} updateOrb={updateOrb} 
+                    </div>
+                    {/* {modal?  (<Modal show={modal} closeModal={closeModal}/>) : null } */}
+                    <Sidebar jobInfo={jobInfo} updateNode={updateNode} updateOrb={updateOrb} 
                     generateConfig={generateConfig} setWorkflow={setWorkflow} 
-                    workflowName={workflowName} workflowSubmission={workflowSubmission}/>
+                    workflowName={workflowName} workflowSubmission={workflowSubmission}/> 
                 </ReactFlowProvider>
         </div>
-        </div> 
+        
+        </> 
     ) : (
         <Config elements={elements} workflowName={workflowName} orb={orb}/>
     )
