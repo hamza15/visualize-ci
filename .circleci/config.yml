@@ -5,8 +5,16 @@ jobs:
       - image: cimg/node:17.0.1
     steps:
       - checkout
-      - run: yarn install
-      - run: yarn start
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+
   Test:
     docker:
       - image: circleci/ruby:2.4-node
