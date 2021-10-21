@@ -18,13 +18,13 @@ jobs:
     steps:
       - checkout
       - run: echo "Hello World"
-  Push:
+  Test3:
     docker:
       - image: circleci/ruby:2.4-node
     steps:
       - checkout
       - run: echo "Hello World"
-  outputNode:
+  Push:
     docker:
       - image: circleci/ruby:2.4-node
     steps:
@@ -40,11 +40,11 @@ workflows:
       - Test2:
           requires:
             - Build
-      - Push:
+      - Test3:
           requires:
             - Build
-      - outputNode:
+      - Push:
           requires:
             - Test
             - Test2
-            - Push
+            - Test3
