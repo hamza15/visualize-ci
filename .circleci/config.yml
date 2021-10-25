@@ -10,13 +10,14 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm install
-      - run: 
-          name: Tests
-          command: npm test
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
+      - run: 
+          name: Tests
+          command: npm test
+      
 
   Test:
     docker:
