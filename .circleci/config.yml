@@ -1,4 +1,8 @@
 version: "2.1"
+
+orbs:
+  gcp-cli: circleci/gcp-cli@1.0.0
+
 jobs:
   Build:
     docker:
@@ -43,7 +47,9 @@ jobs:
     steps:
       - checkout
       - run: echo "Hello World"
-      - run: echo $GCLOUD_SERVICE_KEY
+      - gcp-cli/install_and_initialize_cli:
+          context: myContext
+          executor: gcp-cli/default
 workflows:
   "Build_Test_Push":
     jobs:
