@@ -1,8 +1,8 @@
 version: "2.1"
 
 orbs:
-  gcp-cli: circleci/gcp-cli@1.0.0
-
+  gcp-cli: circleci/gcp-cli@2.2.0
+  
 jobs:
   Build:
     docker:
