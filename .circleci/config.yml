@@ -1,7 +1,4 @@
 version: "2.1"
-
-orbs:
-  gcp-cli: circleci/gcp-cli@2.2.0
   
 jobs:
   Build:
@@ -47,9 +44,7 @@ jobs:
     steps:
       - checkout
       - run: echo "Hello World"
-      - gcp-cli/install_and_initialize_cli:
-          context: myContext
-          executor: gcp-cli/default
+      
 workflows:
   "Build_Test_Push":
     jobs:
