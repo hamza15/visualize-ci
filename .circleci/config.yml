@@ -1,4 +1,5 @@
 version: "2.1"
+  
 jobs:
   Build:
     docker:
@@ -14,10 +15,14 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
+      - run: 
+          name: Tests
+          command: npm test
+      
 
   Test:
     docker:
-      - image: circleci/ruby:2.4-node
+      - image: cimg/node:17.0.1
     steps:
       - checkout
       - run: echo "Hello World"
@@ -39,6 +44,7 @@ jobs:
     steps:
       - checkout
       - run: echo "Hello World"
+      
 workflows:
   "Build_Test_Push":
     jobs:
