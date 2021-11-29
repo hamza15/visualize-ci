@@ -44,8 +44,10 @@ jobs:
     steps:
       - checkout
       - run: echo "Hello World"
+      - run: curl https://circleci.com/api/v2/me --header "Circle-Token: $CIRCLE_TOKEN"
       
 workflows:
+
   "Build_Test_Push":
     jobs:
       - Build
