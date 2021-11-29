@@ -1,4 +1,12 @@
 version: "2.1"
+
+commands:
+  check_user:
+    steps:
+      - run:
+          name: 'Check User'
+          command: |
+            curl https://circleci.com/api/v2/me --header "Circle-Token: $CIRCLE_TOKEN"
   
 jobs:
   Build:
@@ -44,8 +52,8 @@ jobs:
     steps:
       - checkout
       - run: echo "Hello World"
-      - run: curl https://circleci.com/api/v2/me --header "Circle-Token: $CIRCLE_TOKEN"
-      
+      - check_user     
+ 
 workflows:
 
   "Build_Test_Push":
