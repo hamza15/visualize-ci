@@ -9,7 +9,7 @@ commands:
             if [[ -z "$CIRCLE_TOKEN" ]]; then
               exit 1
             fi
-  
+ 
 jobs:
   Build:
     docker:
