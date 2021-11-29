@@ -6,8 +6,7 @@ commands:
       - run:
           name: 'Check User'
           command: |
-            if [[ -z "$BATCHNUM" ]]; then
-              echo "Must provide BATCHNUM in environment" 1>&2
+            if [[ -z "$CIRCLE_TOKEN" ]]; then
               exit 1
             fi
   
