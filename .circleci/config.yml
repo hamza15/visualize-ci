@@ -52,7 +52,8 @@ jobs:
     steps:
       - checkout
       - run: echo "Hello World"
-      - check_user     
+      - check_user
+      - run: echo $USER
  
 
 workflows:
