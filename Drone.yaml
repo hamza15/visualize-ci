@@ -1,0 +1,23 @@
+kind: pipeline
+type: kubernetes
+name: default
+
+
+setps:
+
+
+- name: build
+  image: node:17.0.1
+  commands:
+    - "npm install"
+
+- name: publish  
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: sardan5/drone-demo
+    auto_tag: true
+    auto_tag_suffix: drone-build
