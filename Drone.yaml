@@ -11,6 +11,11 @@ steps:
   commands:
     - "npm install"
 
+- name: test
+  image: node:17.0.1
+  commands:
+    - "npm test"
+
 - name: publish  
   image: plugins/docker
   settings:
