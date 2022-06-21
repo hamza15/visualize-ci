@@ -3,7 +3,7 @@ type: kubernetes
 name: default
 
 
-setps:
+steps:
 
 
 - name: build
