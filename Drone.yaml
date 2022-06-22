@@ -24,6 +24,6 @@ steps:
     password:
       from_secret: docker_password
     repo: sardan5/drone-demo
-    tags: ${DRONE_TAG}
+    tags: v-${DRONE_BUILD_NUMBER}
     when:
       event: [ tag ]
