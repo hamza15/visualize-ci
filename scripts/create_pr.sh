@@ -2,7 +2,7 @@
 # requires jq, base64, curl
 # expects env vars $GITHUB_TOKEN
 set -eo pipefail
-
+echo "I'm  not ugly code"
 for i in "$@"; do
   case $i in
     -i=*|--image=*)
@@ -45,6 +45,7 @@ fi
 if ! [[ "$IMAGE" =~ ([a-zA-Z0-9]{0,}/){0,1}[a-zA-Z0-9]{0,}:.+ ]]; 
 then
   echo "Invalid Image format $IMAGE. Expected image:tag or org/image:tag"
+  exit 1
 fi
 
 if [ -z "$TOKEN" ]; then
@@ -91,9 +92,9 @@ FILE=".argocd-source-argocd-demo.yaml"
 
 # step 2 write new argocd file
 ## this is gross because only replacing tag,
-TEMPLATE=$(cat ./templates/$FILE.tmpl | sed "s/{{ .Tag }}/$TAG/g")
+TEMPLATE=$(sed 's/{{ .Tag }}/'"$TAG"'/g' ./templates/$FILE.tmpl)
 
-TEMPLATE_BLOB=$(echo $TEMPLATE | base64)
+TEMPLATE_BLOB=$(echo "$TEMPLATE" | base64)
 
 echo $TEMPLATE_BLOB
 
