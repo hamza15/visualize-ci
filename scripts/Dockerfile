@@ -3,4 +3,4 @@ FROM giantswarm/tiny-tools:3.12
 WORKDIR /var/opt
 COPY . .
 
-ENTRYPOINT ["./create_pr.sh"]
+ENTRYPOINT ["/var/opt/create_pr.sh"]
