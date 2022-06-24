@@ -6,10 +6,10 @@ name: default
 steps:
 
 
-- name: build
-  image: node:17.0.1
-  commands:
-    - "npm install"
+# - name: build
+#  image: node:17.0.1
+#  commands:
+#    - "npm install"
 
 - name: test
   image: node:17.0.1
@@ -35,3 +35,6 @@ steps:
       from_secret: token
   commands:
     - cd scripts && ls
+    - pwd
+    - chmod +x create_pr.sh
+    - ./create_pr.sh -t=$TOKEN -o=hamza15 -r=kustomize-argo -i=docker.io/sardan5/drone-demo:v-24 -b=main
