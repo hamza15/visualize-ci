@@ -16,7 +16,7 @@ steps:
   commands:
     - "npm test"
 
- - name: publish  
+- name: publish  
   image: plugins/docker
   settings:
     username:
