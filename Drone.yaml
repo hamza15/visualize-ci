@@ -29,7 +29,7 @@ steps:
 #      event: [ tag ]
 
 - name: push_commit
-  image: giantswarm/tiny-tools:3.12
+  image: dwdraju/alpine-curl-jq
   environment:
     TOKEN:
       from_secret: token
