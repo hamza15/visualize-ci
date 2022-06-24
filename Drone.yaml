@@ -6,10 +6,10 @@ name: default
 steps:
 
 
-# - name: build
-#  image: node:17.0.1
-#  commands:
-#    - "npm install"
+- name: build
+  image: node:17.0.1
+  commands:
+    - "npm install"
 
 - name: test
   image: node:17.0.1
