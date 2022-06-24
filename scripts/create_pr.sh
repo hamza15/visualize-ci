@@ -94,7 +94,7 @@ FILE=".argocd-source-argocd-demo.yaml"
 ## this is gross because only replacing tag,
 TEMPLATE=$(sed 's/{{ .Tag }}/'"$TAG"'/g' ./templates/$FILE.tmpl)
 
-TEMPLATE_BLOB=$(echo $TEMPLATE | base64)
+TEMPLATE_BLOB=$(echo "$TEMPLATE" | base64 | tr -d \\n)
 
 echo $TEMPLATE_BLOB
 
@@ -103,9 +103,10 @@ echo "Updating $FILE"
 # have to get repo contents first foer the file sha
 contents_resp=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/contents/dev/$FILE)
 CONTENTS_SHA=$(echo $contents_resp | jq -r '.sha')
+
 # # equally gross, hard coded file path to target repo :( \"committer\":{\"name\":\"Robot\",\"email\":\"harness@yourorg.com\"}
 # \"message\":\"Harness Updating $FILE\",\"content\":\"$TEMPLATE_BLOB\",\"sha\":\"$CONTENTS_SHA\",\"branch\":\"$BRANCH_NAME\"
-curl -X PUT -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/contents/dev/$FILE -d "{\"message\":\"Harness Updating $FILE\",\"sha\":\"$CONTENTS_SHA\"}"
+curl -X PUT -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/contents/dev/$FILE -d "{\"message\":\"Harness Updating $FILE\",\"sha\":\"$CONTENTS_SHA\",\"content\":\"$TEMPLATE_BLOB\",\"branch\":\"$BRANCH_NAME\",\"committer\":{\"name\":\"Robot\",\"email\":\"harness@yourorg.com\"}}"
 
 # # Step 3 Make PR
 # echo "Making PR"
