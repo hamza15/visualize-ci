@@ -94,7 +94,7 @@ FILE=".argocd-source-argocd-demo.yaml"
 ## this is gross because only replacing tag,
 TEMPLATE=$(sed 's/{{ .Tag }}/'"$TAG"'/g' ./templates/$FILE.tmpl)
 
-TEMPLATE_BLOB=$(echo "$TEMPLATE" | base64)
+TEMPLATE_BLOB=$(echo $TEMPLATE | base64)
 
 echo $TEMPLATE_BLOB
 
