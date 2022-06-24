@@ -105,7 +105,7 @@ contents_resp=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorizati
 CONTENTS_SHA=$(echo $contents_resp | jq -r '.sha')
 # # equally gross, hard coded file path to target repo :( \"committer\":{\"name\":\"Robot\",\"email\":\"harness@yourorg.com\"}
 # \"message\":\"Harness Updating $FILE\",\"content\":\"$TEMPLATE_BLOB\",\"sha\":\"$CONTENTS_SHA\",\"branch\":\"$BRANCH_NAME\"
-curl -X PUT -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/contents/dev/$FILE -d "{\"message\":\"Harness Updating $FILE\",\"content\":\"$TEMPLATE_BLOB\"}"
+curl -X PUT -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/contents/dev/$FILE -d "{\"message\":\"Harness Updating $FILE\",\"sha\":\"$CONTENTS_SHA\"}"
 
 # # Step 3 Make PR
 # echo "Making PR"
