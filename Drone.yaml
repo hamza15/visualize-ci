@@ -16,17 +16,17 @@ steps:
   commands:
     - "npm test"
 
-- name: publish  
-  image: plugins/docker
-  settings:
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
-    repo: sardan5/drone-demo
-    tags: v-${DRONE_BUILD_NUMBER}
-    when:
-      event: [ tag ]
+# - name: publish  
+#  image: plugins/docker
+#  settings:
+#    username:
+#      from_secret: docker_username
+#    password:
+#      from_secret: docker_password
+#    repo: sardan5/drone-demo
+#    tags: v-${DRONE_BUILD_NUMBER}
+#    when:
+#      event: [ tag ]
 
 - name: push_commit
   image: giantswarm/tiny-tools:3.12
@@ -34,4 +34,4 @@ steps:
     TOKEN:
       from_secret: token
   commands:
-    - cd scripts && ./create_pr.sh -t=$TOKEN -o=hamza15 -r=kustomize-argo -i=docker.io/sardan5/drone-demo:v-${DRONE_BUILD_NUMBER} -b=main
+    - cd scripts && ls
