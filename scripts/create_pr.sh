@@ -104,7 +104,7 @@ echo "Updating $FILE"
 contents_resp=$(curl -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/contents/dev/$FILE)
 CONTENTS_SHA=$(echo $contents_resp | jq -r '.sha')
 # # equally gross, hard coded file path to target repo :(
-curl -X PUT -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/contents/dev/$FILE -d '{"message":"Harness Updating '$FILE'","committer":{"name":"Robot","email":"harness@yourorg.com"},"content":"'$TEMPLATE_BLOB'", "sha": "'$CONTENTS_SHA'", "branch": "'$BRANCH_NAME'"}'
+curl -X PUT -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $TOKEN" https://api.github.com/repos/$OWNER/$REPO/contents/dev/$FILE -d "{\"message\":\"Harness Updating $FILE\",\"committer\":{\"name\":\"Robot\",\"email\":\"harness@yourorg.com\"},\"content\":\"$TEMPLATE_BLOB\", \"sha\": \"$CONTENTS_SHA\", \"branch\": \"$BRANCH_NAME\"}"
 
 # Step 3 Make PR
 echo "Making PR"
