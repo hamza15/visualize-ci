@@ -1,6 +1,9 @@
 FROM giantswarm/tiny-tools:3.12
 
-WORKDIR /var/opt
-COPY . .
+RUN  apk --no-cache add bash
 
-ENTRYPOINT ["/var/opt/create_pr.sh"]
+WORKDIR /var/opt
+
+COPY . /var/opt/
+
+ENTRYPOINT ["./create_pr.sh"]
