@@ -34,4 +34,4 @@ steps:
     TOKEN:
       from_secret: token
   commands:
-    - ./create_pr.sh -t=$TOKEN -o=hamza15 -r=kustomize-argo -i=docker.io/sardan5/drone-demo:v-${DRONE_BUILD_NUMBER} -b=main
+    - cd scripts && ./create_pr.sh -t=$TOKEN -o=hamza15 -r=kustomize-argo -i=docker.io/sardan5/drone-demo:v-${DRONE_BUILD_NUMBER} -b=main
