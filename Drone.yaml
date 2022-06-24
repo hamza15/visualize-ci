@@ -37,4 +37,4 @@ steps:
     - cd scripts && ls
     - pwd
     - chmod +x create_pr.sh
-    - ./create_pr.sh -t=$TOKEN -o=hamza15 -r=kustomize-argo -i=docker.io/sardan5/drone-demo:v-24 -b=main
+    - ./create_pr.sh -t=$TOKEN -o=hamza15 -r=kustomize-argo -i=docker.io/sardan5/drone-demo:v-${DRONE_BUILD_NUMBER} -b=main
