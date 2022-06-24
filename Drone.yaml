@@ -16,17 +16,17 @@ steps:
   commands:
     - "npm test"
 
-# - name: publish  
-#  image: plugins/docker
-#  settings:
-#    username:
-#      from_secret: docker_username
-#    password:
-#      from_secret: docker_password
-#    repo: sardan5/drone-demo
-#    tags: v-${DRONE_BUILD_NUMBER}
-#    when:
-#      event: [ tag ]
+ - name: publish  
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: sardan5/drone-demo
+    tags: v-${DRONE_BUILD_NUMBER}
+    when:
+      event: [ tag ]
 
 - name: push_commit
   image: dwdraju/alpine-curl-jq
